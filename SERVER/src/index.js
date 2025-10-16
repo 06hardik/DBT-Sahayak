@@ -19,10 +19,22 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // routes import
-
+import verifyRouter from "./routers/verification.routes.js"
+import chatRouter from "./routers/chat.routes.js"
+import ivrRouter from "./routers/ivr.routes.js"
+import authRouter from "./routers/auth.routes.js"
+import dashboardRouter from "./routers/dashboard.routes.js"
+import { errorHandler } from "./middlewares/errorHandler.middleware.js";
+import { initializeScheduler } from "./utils/scheduler.js";
 
 // routes declare
+app.use("/api/v1", verifyRouter);
+app.use("/api/v1", chatRouter);
+app.use("/api/v1", ivrRouter);
+app.use("/api/v1/gov", authRouter);
+app.use("/api/v1/gov", dashboardRouter);
 
+app.use(errorHandler);
 
 connectDB()
     .then(() => {
@@ -32,6 +44,7 @@ connectDB()
 
         app.listen(process.env.PORT || 8000, () => {
             console.log(`🚀 Server is running at port: ${process.env.PORT || 8000}`);
+            initializeScheduler();
         });
     })
     .catch((err) => {
