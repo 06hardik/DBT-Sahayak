@@ -1,6 +1,6 @@
 import Header from "@/components/Header"; // <-- Import the new Header
 import Hero from "@/components/Hero";
-import MissedCall from "@/components/MissedCall"; // <-- Assuming you created this
+import MissedCall from "@/components/missedcall"; // <-- Assuming you created this
 import HowItWorks from "@/components/HowItWorks";
 import Features from "@/components/Features";
 import AadhaarVsDBT from "@/components/AadhaarVsDBT";
