@@ -1,12 +1,5 @@
 import { ApiError } from "../utils/ApiError.js";
 
-/**
- * Centralized error handling middleware.
- * @param {Error | ApiError} err - The error object.
- * @param {import("express").Request} req - The Express request object.
- * @param {import("express").Response} res - The Express response object.
- * @param {import("express").NextFunction} next - The Express next middleware function.
- */
 const errorHandler = (err, req, res, next) => {
     let statusCode = err.statusCode || 500;
     let message = err.message || "Internal Server Error";

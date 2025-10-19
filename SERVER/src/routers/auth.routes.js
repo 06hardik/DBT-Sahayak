@@ -3,6 +3,6 @@ import { loginOfficial } from "../controllers/auth.controller.js";
 
 const router = Router();
 
-router.route("/gov/login").post(loginOfficial);
+router.route("/login").post(loginOfficial);
 
 export default router;

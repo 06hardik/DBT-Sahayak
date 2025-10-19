@@ -1,40 +1,37 @@
 import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface StatusCardProps {
   status: "green" | "yellow" | "red";
-  bankName: string;
+  bankName: string | null; // Allow bankName to be null
+  aadhaarLast4: string; // Add this prop to show the last 4 digits
 }
 
-const StatusCard = ({ status, bankName }: StatusCardProps) => {
+const StatusCard = ({ status, bankName, aadhaarLast4 }: StatusCardProps) => {
   const statusConfig = {
     green: {
       icon: CheckCircle2,
       title: "Congratulations! Your account is DBT-Ready.",
-      description: "Your bank account is properly linked and ready to receive Direct Benefit Transfers.",
-      bgColor: "bg-success/10",
-      borderColor: "border-success",
-      textColor: "text-success",
-      iconColor: "text-success",
+      description: "No further action is needed. Your scholarship funds will be transferred to this account successfully.",
+      borderColor: "border-t-8 border-green-500",
+      iconColor: "text-green-600",
+      iconBgColor: "bg-green-100",
     },
     yellow: {
       icon: AlertTriangle,
-      title: "Action Required! Your DBT status is unconfirmed.",
-      description: "Your account needs verification. Please follow the recommended steps below.",
-      bgColor: "bg-yellow-500/10",
-      borderColor: "border-yellow-500",
-      textColor: "text-yellow-700 dark:text-yellow-400",
-      iconColor: "text-yellow-500",
+      title: "Action Recommended",
+      description: "While your Aadhaar is linked, your DBT status is unconfirmed. To be safe, we strongly recommend visiting your bank to ensure everything is ready for your scholarship.",
+      borderColor: "border-t-8 border-yellow-500",
+      iconColor: "text-yellow-600",
+      iconBgColor: "bg-yellow-100",
     },
     red: {
       icon: XCircle,
-      title: "Urgent! Your account is NOT ready for DBT.",
-      description: "Your bank account is not properly configured for DBT. Immediate action required.",
-      bgColor: "bg-destructive/10",
-      borderColor: "border-destructive",
-      textColor: "text-destructive",
-      iconColor: "text-destructive",
+      title: "Urgent Action Required",
+      description: "Your account is NOT ready to receive scholarship funds. Please visit your nearest bank branch immediately to get this fixed.",
+      borderColor: "border-t-8 border-red-500",
+      iconColor: "text-red-600",
+      iconBgColor: "bg-red-100",
     },
   };
 
@@ -42,31 +39,42 @@ const StatusCard = ({ status, bankName }: StatusCardProps) => {
   const Icon = config.icon;
 
   return (
-    <Card className={`${config.bgColor} ${config.borderColor} border-2 shadow-lg`}>
-      <CardHeader>
-        <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-full ${config.bgColor}`}>
-            <Icon className={`w-8 h-8 ${config.iconColor}`} />
+    <Card className={`shadow-xl ${config.borderColor} transition-all`}>
+      <CardContent className="p-8 text-center">
+        
+        {/* Simplified Icon and Title Layout */}
+        <div className={`mx-auto h-20 w-20 flex items-center justify-center rounded-full ${config.iconBgColor}`}>
+          <Icon className={`w-12 h-12 ${config.iconColor}`} />
+        </div>
+        
+        <h2 className="text-3xl font-bold text-slate-900 mt-6">
+          {config.title}
+        </h2>
+        
+        <p className="text-slate-600 mt-2 max-w-lg mx-auto leading-relaxed">
+          {config.description}
+        </p>
+        
+        {/* Details Section with improved logic and styling */}
+        <div className="mt-8 bg-slate-50 border border-slate-200 rounded-lg p-4 text-left text-base space-y-2">
+          <div className="flex justify-between">
+            <span className="text-slate-500">Aadhaar Number</span>
+            <span className="font-mono font-semibold text-slate-800">XXXX XXXX {aadhaarLast4}</span>
           </div>
-          <div className="flex-1">
-            <CardTitle className={`text-2xl mb-2 ${config.textColor}`}>
-              {config.title}
-            </CardTitle>
-            <CardDescription className="text-base">
-              {config.description}
-            </CardDescription>
+          <div className="flex justify-between">
+            <span className="text-slate-500">Linked Bank</span>
+            {bankName ? (
+              <span className="font-semibold text-slate-800">{bankName}</span>
+            ) : (
+              <span className="font-semibold text-red-600">Not Found</span>
+            )}
+          </div>
+           <div className="flex justify-between">
+            <span className="text-slate-500">DBT Status</span>
+            <span className={`font-bold ${config.iconColor}`}>{status.toUpperCase()}</span>
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground font-medium">Bank Name:</span>
-            <Badge variant="outline" className="text-base px-3 py-1">
-              {bankName}
-            </Badge>
-          </div>
-        </div>
+        
       </CardContent>
     </Card>
   );

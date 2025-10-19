@@ -1,86 +1,107 @@
+import { useState } from "react"; // <-- Import useState
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { MessageCircleQuestion } from "lucide-react"; // Corrected icon name
+import GeneralAIChatModal from "@/components/GeneralAIChatModal"; // <-- Import the new modal component
+
+const faqs = [
+  {
+    question: "Is my Aadhaar and banking information secure?",
+    answer: "Absolutely. We use official, secure government APIs for verification. Your Aadhaar number is never stored on our servers. The entire process is encrypted, confidential, and built with privacy as the highest priority."
+  },
+  {
+    question: "What is the difference between 'Linked' and 'DBT-Enabled'?",
+    answer: "A 'linked' account only uses Aadhaar for identity (KYC). A 'DBT-Enabled' (or seeded) account is the only one authorized to receive government scholarship funds. This tool specifically checks if your account is correctly DBT-Enabled."
+  },
+  {
+    question: "What should I do if my account is not ready?",
+    answer: "If your status is Red or Yellow, you must visit your bank branch. Ask them to fill the 'Aadhaar Seeding Consent Form' for DBT. Our AI Sahayak can provide you with a step-by-step script to use at the bank."
+  },
+  {
+    question: "Is this service really free?",
+    answer: "Yes. DBT-Sahayak is a social initiative. Our service is 100% free for all students to use, whether through the website or the missed-call feature."
+  },
+  {
+    question: "Can I use this without a smartphone or internet?",
+    answer: "Yes. The missed-call service is designed specifically for this purpose. Give a missed call to our number, and you will receive an automated call back to guide you through the verification process."
+  },
+];
 
 const FAQ = () => {
-  const faqs = [
-    {
-      question: "What is the difference between Aadhaar-linked and DBT-enabled accounts?",
-      answer: "An Aadhaar-linked account simply has your Aadhaar number associated with it. A DBT-enabled account is specifically registered with NPCI for receiving Direct Benefit Transfers from government schemes. Your account must be DBT-enabled to receive scholarships and subsidies."
-    },
-    {
-      question: "How do I check if my account is DBT-enabled?",
-      answer: "You can check your DBT status through DBT-Sahayak by giving a missed call to our helpline, sending an SMS, or using our web portal. You'll receive instant verification of your DBT status."
-    },
-    {
-      question: "My account shows as not DBT-ready. What should I do?",
-      answer: "If your account is not DBT-enabled, visit your bank branch with your Aadhaar card and request DBT activation. Our AI Sahayak can help you draft a proper application and guide you through the process."
-    },
-    {
-      question: "Is this service free for students?",
-      answer: "Yes, DBT-Sahayak is completely free for all students. You can verify your status via missed call, SMS, or web portal at zero cost."
-    },
-    {
-      question: "How long does it take to get verification results?",
-      answer: "Verification results are instant! You'll receive your DBT status immediately via SMS or on the web portal after submitting your request."
-    },
-    {
-      question: "Can I use this service if I don't have internet access?",
-      answer: "Absolutely! You can give a missed call to our helpline number or send an SMS to check your DBT status without internet connectivity."
-    },
-    {
-      question: "What information do I need to provide for verification?",
-      answer: "You need your Aadhaar number and mobile number registered with Aadhaar for verification. The process is simple and secure."
-    },
-    {
-      question: "Will my scholarship be delayed if my account is not DBT-enabled?",
-      answer: "Yes, scholarships and government subsidies can only be transferred to DBT-enabled accounts. It's crucial to ensure your account is DBT-ready before scholarship disbursement dates."
-    },
-    {
-      question: "How does the AI Sahayak help me?",
-      answer: "AI Sahayak provides personalized guidance in your preferred language. It can help you understand the verification process, draft bank applications, suggest required documents, and answer all your DBT-related queries."
-    },
-    {
-      question: "Is my Aadhaar and banking information secure?",
-      answer: "Yes, we follow strict security protocols. Your data is encrypted and used only for verification purposes. We never store sensitive banking information permanently."
-    }
-  ];
+  // State to manage whether the modal is open or closed
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-foreground">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Common questions about DBT-Aadhaar verification and our services
-            </p>
-          </div>
+    <> {/* Use a Fragment to wrap the section and the modal */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl sm:text-5xl font-bold text-slate-900">
+                Answers to Your Questions
+              </h2>
+              <p className="mt-4 text-xl text-slate-600">
+                Everything you need to know to feel confident and secure.
+              </p>
+            </div>
 
-          <Accordion type="single" collapsible className="w-full space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`}
-                className="bg-background border-2 rounded-lg px-6 data-[state=open]:border-primary/50"
-              >
-                <AccordionTrigger className="text-left hover:no-underline py-6">
-                  <span className="font-semibold text-foreground">{faq.question}</span>
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-6">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+            <div className="grid lg:grid-cols-3 gap-10">
+              <div className="lg:col-span-2">
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem 
+                      key={index} 
+                      value={`item-${index}`}
+                      className="bg-slate-50 border-2 border-slate-200 rounded-lg px-6 data-[state=open]:border-blue-500 transition-all"
+                    >
+                      <AccordionTrigger className="text-left hover:no-underline py-5">
+                        <span className="font-semibold text-lg text-slate-800">{faq.question}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-slate-600 pb-5 text-base leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              <div className="lg:col-span-1">
+                <div className="bg-slate-100 border-2 border-slate-200 rounded-lg p-8 h-full">
+                  <div className="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mb-6">
+                      <MessageCircleQuestion size={32} /> {/* Corrected icon name */}
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">
+                    Still have questions?
+                  </h3>
+                  <p className="text-slate-600 mb-6">
+                    If you can't find the answer you're looking for, our AI assistant is ready to help you with any specific query you have.
+                  </p>
+                  {/* This button now controls the modal state */}
+                  <Button 
+                    className="w-full py-6 text-lg font-bold"
+                    onClick={() => setIsModalOpen(true)} // Open the modal on click
+                  >
+                    Ask AI Sahayak
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Render the modal component, controlling its visibility with state */}
+      <GeneralAIChatModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
+    </>
   );
 };
 

@@ -1,40 +1,27 @@
+import { ShieldCheck } from "lucide-react";
+
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-4">DBT-Sahayak</h3>
-              <p className="text-primary-foreground/80">
-                Empowering students with instant DBT-Aadhaar verification and AI-powered guidance.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-primary-foreground/80">
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Home</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">How It Works</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-primary-foreground/80">
-                <li>Help Center</li>
-                <li>Documentation</li>
-                <li>Community Forum</li>
-                <li>Contact Support</li>
-              </ul>
-            </div>
-          </div>
+    <footer className="bg-slate-800 text-slate-400">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-6xl mx-auto text-center">
           
-          <div className="border-t border-primary-foreground/20 pt-8 text-center text-primary-foreground/70">
-            <p>&copy; 2025 DBT-Sahayak. Empowering financial inclusion through technology.</p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <ShieldCheck className="w-8 h-8 text-blue-400" />
+            <h3 className="text-2xl font-bold text-white">DBT-Sahayak</h3>
           </div>
+
+          <p className="max-w-xl mx-auto text-sm text-slate-400 mb-6">
+            A secure, student-focused utility to provide instant clarity on Aadhaar-DBT seeding status.
+          </p>
+          
+          <div className="border-t border-slate-700 pt-6 text-xs">
+            <p className="mb-2">
+              This is a prototype developed for the Smart India Hackathon 2025. This is not an official government website.
+            </p>
+            <p>&copy; 2025 Team [Your Team Name]. All Rights Reserved.</p>
+          </div>
+
         </div>
       </div>
     </footer>

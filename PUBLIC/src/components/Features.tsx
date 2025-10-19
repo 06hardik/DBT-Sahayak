@@ -1,86 +1,57 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { PhoneCall, MessageSquare, BarChart3, Bot, Shield, Zap } from "lucide-react";
+import { Globe, Zap, BrainCircuit } from "lucide-react";
+
+// The new, curated list of features focused on direct user benefits.
+const features = [
+  {
+    icon: <Globe size={28} />,
+    title: "Universal Access",
+    description: "Whether you're online or on a basic phone with no internet, our service is accessible to every student, everywhere."
+  },
+  {
+    icon: <Zap size={28} />,
+    title: "Instant Clarity",
+    description: "No more waiting or confusion. Get an immediate, clear, and color-coded answer about your DBT status in seconds."
+  },
+  {
+    icon: <BrainCircuit size={28} />,
+    title: "AI-Powered Guidance",
+    description: "If there's an issue, our AI Sahayak provides simple, step-by-step instructions in your language to help you fix it."
+  },
+];
 
 const Features = () => {
-  const features = [
-    {
-      icon: PhoneCall,
-      title: "Missed Call Verification",
-      description: "Simply give a missed call and receive instant SMS with your DBT-Aadhaar status. No internet required.",
-      color: "text-primary",
-      bgColor: "bg-primary/10"
-    },
-    {
-      icon: MessageSquare,
-      title: "Interactive IVR System",
-      description: "Voice-guided verification process accessible from any phone, ensuring no student is left behind.",
-      color: "text-primary-light",
-      bgColor: "bg-primary-light/10"
-    },
-    {
-      icon: Bot,
-      title: "AI-Powered Sahayak",
-      description: "Gemini-powered assistant provides conversational Q&A, personalized scripts, and dynamic audio guides.",
-      color: "text-accent",
-      bgColor: "bg-accent/10"
-    },
-    {
-      icon: BarChart3,
-      title: "Real-Time Dashboard",
-      description: "Government officials get live insights on verification trends, regional hotspots, and failure rates.",
-      color: "text-success",
-      bgColor: "bg-success/10"
-    },
-    {
-      icon: Shield,
-      title: "Secure & Anonymous",
-      description: "All data is anonymized and securely processed through NPCI Aadhaar Mapper API.",
-      color: "text-primary-glow",
-      bgColor: "bg-primary-glow/10"
-    },
-    {
-      icon: Zap,
-      title: "Instant Results",
-      description: "Get color-coded status in seconds with step-by-step guidance to resolve any issues.",
-      color: "text-accent",
-      bgColor: "bg-accent/10"
-    }
-  ];
-
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-foreground">
-            Powerful Features
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900">
+            A Service Designed for Every Student
           </h2>
-          <p className="text-xl text-muted-foreground">
-            Everything you need for seamless DBT-Aadhaar verification and management
+          <p className="mt-4 text-xl text-slate-600">
+            We built DBT-Sahayak with three core principles in mind to ensure you get the help you need, without the hassle.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Card 
-                key={index} 
-                className="border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <CardContent className="p-6">
-                  <div className={`w-16 h-16 ${feature.bgColor} rounded-xl flex items-center justify-center mb-4`}>
-                    <Icon className={`w-8 h-8 ${feature.color}`} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {features.map((feature, index) => (
+            <Card 
+              key={index} 
+              className="bg-white border-2 border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+            >
+              <CardContent className="p-8">
+                <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-semibold mb-3 text-slate-800">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
