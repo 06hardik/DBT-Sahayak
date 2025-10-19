@@ -17,7 +17,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/gov/login', {
+      const response = await fetch('https://dbt-sahayak-server.onrender.com/api/v1/gov/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

@@ -21,7 +21,7 @@ const handleSubmit = async (e) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/verify', {
+      const response = await fetch('https://dbt-sahayak-server.onrender.com/api/v1/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ aadhaarNumber: aadhaar }),
