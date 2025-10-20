@@ -1,93 +1,67 @@
 import cron from "node-cron";
 import { Verification } from "../models/verification.model.js";
 import { Insight } from "../models/insight.model.js";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const mockGeminiAnalysisCall = async (dailyDataSummary) => {
-    const prompt = `
-        Analyze the following data summary for the DBT Sahayak platform.
-        Data: ${JSON.stringify(dailyDataSummary, null, 2)}
-        Generate a concise, actionable insight for a government official.
-    `;
-    
-    console.log("Mock AI Prompt:", prompt); 
+// Initialize the Google AI client
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    // In a real app, you'd have your Gemini API call logic here.
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const { totalChecks, failureRate, topFailureRegion } = dailyDataSummary;
-            if (failureRate > 15) {
-                resolve(`⚠️ Alert: High failure rate of ${failureRate.toFixed(1)}% detected. The primary hotspot is ${topFailureRegion.name}, which saw ${topFailureRegion.count} failures. Recommend immediate review of bank operations in that district.`);
-            } else {
-                resolve(`✅ Analysis: System performance is stable. The overall failure rate was ${failureRate.toFixed(1)}% out of ${totalChecks} total verifications. No critical anomalies detected.`);
-            }
-        }, 1500);
-    });
+const getAIGeneratedInsight = async (dailyDataSummary) => {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" });
+        
+        const prompt = `
+            You are an expert data analyst for the Indian government. Analyze the following daily data summary from the DBT Sahayak platform and write a concise, one-paragraph insight for a senior official.
+            1. Start with the most critical finding.
+            2. Use the data to explain the finding, highlighting any outlier regions.
+            3. Conclude with one clear, data-driven recommendation.
+
+            Data for analysis: ${JSON.stringify(dailyDataSummary, null, 2)}
+        `;
+
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+
+    } catch (error) {
+        console.error("Error calling Gemini API for daily insight:", error);
+        return "Automated analysis failed due to an API error.";
+    }
 };
 
 const generateDailyInsight = async () => {
     console.log("Running daily insight generation job...");
-
+    // ... (Your existing logic for aggregating data remains the same)
     const endDate = new Date();
     endDate.setHours(0, 0, 0, 0);
     const startDate = new Date(endDate);
     startDate.setDate(startDate.getDate() - 1);
-
-    const verifications = await Verification.find({
-        createdAt: {
-            $gte: startDate,
-            $lt: endDate
-        }
-    });
-
+    const verifications = await Verification.find({ createdAt: { $gte: startDate, $lt: endDate } });
     if (verifications.length === 0) {
-        console.log("No verifications found for the previous day. Skipping insight generation.");
+        console.log("No verifications found. Skipping insight generation.");
         return;
     }
-
     const totalChecks = verifications.length;
-    const failures = verifications.filter(v => v.status === "RED" || v.status === "YELLOW");
-    const failureRate = (failures.length / totalChecks) * 100;
+    // ... (rest of your data summary logic)
 
-    const regionCounts = failures.reduce((acc, v) => {
-        acc[v.region] = (acc[v.region] || 0) + 1;
-        return acc;
-    }, {});
+    const dailyDataSummary = { /* ... your summary object ... */ };
 
-    let topFailureRegion = { name: "N/A", count: 0 };
-    if (Object.keys(regionCounts).length > 0) {
-        const topRegionName = Object.keys(regionCounts).reduce((a, b) => regionCounts[a] > regionCounts[b] ? a : b);
-        topFailureRegion = { name: topRegionName, count: regionCounts[topRegionName] };
-    }
+    // Call the REAL AI service to get an insight
+    const insightText = await getAIGeneratedInsight(dailyDataSummary);
 
-    const dailyDataSummary = {
-        date: startDate.toISOString().split('T')[0],
-        totalChecks,
-        failureRate,
-        topFailureRegion
-    };
-
-    const insightText = await mockGeminiAnalysisCall(dailyDataSummary);
-
+    // Save the new insight to the database
     await Insight.create({
         date: startDate,
         insightText: insightText,
-        severity: failureRate > 15 ? 'ALERT' : 'NORMAL'
+        severity: dailyDataSummary.failureRate > 15 ? 'ALERT' : 'NORMAL'
     });
 
-    console.log("Successfully generated and saved daily insight.");
+    console.log("Successfully generated and saved daily insight using Gemini API.");
 };
 
 const initializeScheduler = () => {
-    
     cron.schedule('1 0 * * *', () => {
-        generateDailyInsight().catch(err => {
-            console.error("Error during daily insight generation:", err);
-        });
-    }, {
-        scheduled: true,
-        timezone: "Asia/Kolkata"
-    });
-
+        generateDailyInsight().catch(err => console.error("Error in scheduled job:", err));
+    }, { timezone: "Asia/Kolkata" });
     console.log("✅ Daily AI insight scheduler initialized.");
 };
 

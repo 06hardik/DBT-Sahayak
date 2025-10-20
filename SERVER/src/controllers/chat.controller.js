@@ -3,11 +3,10 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+// Initialize the Google AI client with the API key from your environment
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const handleChatMessage = asyncHandler(async (req, res) => {
-    // The 'status' field will be "RED" or "YELLOW" from the results page,
-    // but it will be undefined/null from the general chat modal.
     const { message, status, history } = req.body;
 
     if (!message) {
@@ -16,38 +15,18 @@ const handleChatMessage = asyncHandler(async (req, res) => {
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" });
 
-    // --- Dynamic Prompt Engineering ---
+    // --- Professional Prompt Engineering ---
     let systemInstruction = "";
 
     if (status) {
-        // SCENARIO 1: The user has a specific problem (from the results page)
-        systemInstruction = `
-            You are 'DBT Sahayak', a friendly and empathetic AI assistant for Indian students.
-            A student has just checked their scholarship DBT status and it is '${status}'.
-            Their question is: "${message}"
-
-            Your task is to provide a simple, reassuring, and step-by-step answer in plain language.
-            Your primary goal is to guide them on how to visit their bank and fill the 'Aadhaar Seeding Consent Form'.
-            If they ask for a draft application, provide a simple template.
-            Keep your response concise and easy to understand.
-        `;
+        // Context: The user has a specific problem (e.g., status is "RED")
+        systemInstruction = `You are 'DBT Sahayak', a friendly and empathetic AI assistant for Indian students. A student's scholarship DBT status is '${status}'. Their question is: "${message}". Your task is to provide a simple, step-by-step answer to help them solve their specific problem. Your primary goal is to guide them on how to visit their bank.`;
     } else {
-        // SCENARIO 2: The user has a general question (from the FAQ page modal)
-        systemInstruction = `
-            You are 'DBT Sahayak', a friendly and helpful AI assistant for Indian students.
-            A user is asking a general question about the DBT-Aadhaar scholarship process.
-            Their question is: "${message}"
-
-            Your task is to answer their question clearly and concisely.
-            If their question seems related to their own status, your primary goal is to gently guide them to use the main verification tool on the homepage by entering their Aadhaar number.
-            Do not ask them for their Aadhaar number yourself.
-        `;
+        // Context: The user has a general question from the FAQ page
+        systemInstruction = `You are 'DBT Sahayak', a friendly AI assistant. A user is asking a general question: "${message}". Your task is to answer clearly. If their question is about their personal status, gently guide them to use the main verification tool on the homepage.`;
     }
 
-    const prompt = `
-        ${systemInstruction}
-        Here is the previous conversation history for context: ${JSON.stringify(history)}
-    `;
+    const prompt = `${systemInstruction} Previous conversation history: ${JSON.stringify(history)}`;
 
     try {
         const result = await model.generateContent(prompt);
@@ -59,8 +38,8 @@ const handleChatMessage = asyncHandler(async (req, res) => {
         );
 
     } catch (error) {
-        console.error("GEMINI API ERROR: ", error);
-        throw new ApiError(500, "The AI assistant is currently unavailable. Please try again later.");
+        console.error("GEMINI API ERROR:", error);
+        throw new ApiError(500, "The AI assistant is currently unavailable.");
     }
 });
 
