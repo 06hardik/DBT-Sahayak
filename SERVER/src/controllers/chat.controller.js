@@ -8,7 +8,6 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const handleChatMessage = asyncHandler(async (req, res) => {
     const { message, status, history } = req.body;
-
     if (!message) {
         throw new ApiError(400, "Message is required");
     }
@@ -27,7 +26,6 @@ const handleChatMessage = asyncHandler(async (req, res) => {
     }
 
     const prompt = `${systemInstruction} Previous conversation history: ${JSON.stringify(history)}`;
-
     try {
         const result = await model.generateContent(prompt);
         const response = result.response;

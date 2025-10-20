@@ -44,7 +44,7 @@ const AISahayakChat = ({ status }: AISahayakChatProps) => {
 
     try {
       // **REAL API CALL**
-      const response = await fetch('/api/v1/chat', {
+      const response = await fetch('https://dbt-sahayak-server.onrender.com/api/v1/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
