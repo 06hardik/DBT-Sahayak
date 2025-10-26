@@ -19,7 +19,7 @@ const Footer = () => {
             <p className="mb-2">
               This is a prototype developed for the Smart India Hackathon 2025. This is not an official government website.
             </p>
-            <p>&copy; 2025 Team [Your Team Name]. All Rights Reserved.</p>
+            <p>&copy; 2025 Team [The Altruists]. All Rights Reserved.</p>
           </div>
 
         </div>
