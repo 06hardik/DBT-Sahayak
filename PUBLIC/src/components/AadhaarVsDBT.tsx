@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, XCircle, Link, Banknote, FileSignature, CircleHelp } from "lucide-react";
+import { CheckCircle2, XCircle, Link, Banknote, FileSignature, CircleHelp, Bold } from "lucide-react";
 
 const AadhaarVsDBT = () => {
   return (
@@ -28,7 +28,7 @@ const AadhaarVsDBT = () => {
                 </div>
                 
                 <p className="text-slate-600 mb-6">
-                  This only proves your identity (KYC). It **does not** authorize the bank to accept government payments for you.
+                  This only proves your identity (KYC). It <span className="font-bold">does not</span> authorize the bank to accept government payments for you.
                 </p>
 
                 <div className="space-y-3 text-sm">
@@ -55,7 +55,7 @@ const AadhaarVsDBT = () => {
                 </div>
                 
                 <p className="text-slate-700 mb-6">
-                  This gives your bank permission to accept government funds on your behalf. **This is what you need.**
+                  This gives your bank permission to accept government funds on your behalf. <span className="font-bold">This is what you need.</span>
                 </p>
 
                 <div className="space-y-3 text-sm">
@@ -72,7 +72,8 @@ const AadhaarVsDBT = () => {
             </Card>
           </div>
 
-          {/* "How to Enable" Section - Redesigned */}
+          {/* How to Enable Section */}
+          {/* How to Enable Section */}
           <div className="bg-white border-2 border-slate-200 rounded-2xl p-8 shadow-lg">
             <div className="text-center mb-8">
                 <h3 className="text-3xl font-bold text-slate-900">How to Enable DBT on Your Account</h3>
@@ -81,7 +82,8 @@ const AadhaarVsDBT = () => {
             <div className="grid md:grid-cols-3 gap-8 text-center relative">
                 {/* Step 1 */}
                 <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
+                    {/* --- ADDED relative z-10 --- */}
+                    <div className="relative z-10 flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
                         <CircleHelp size={32}/>
                     </div>
                     <h4 className="mt-4 font-semibold text-slate-800 text-lg">Visit Your Bank</h4>
@@ -92,7 +94,8 @@ const AadhaarVsDBT = () => {
                 
                 {/* Step 2 */}
                 <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
+                    {/* --- ADDED relative z-10 --- */}
+                    <div className="relative z-10 flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
                         <FileSignature size={32}/>
                     </div>
                     <h4 className="mt-4 font-semibold text-slate-800 text-lg">Request DBT Seeding</h4>
@@ -103,7 +106,8 @@ const AadhaarVsDBT = () => {
 
                 {/* Step 3 */}
                 <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
+                    {/* --- ADDED relative z-10 --- */}
+                    <div className="relative z-10 flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full border-4 border-white shadow-md">
                         <CheckCircle2 size={32}/>
                     </div>
                     <h4 className="mt-4 font-semibold text-slate-800 text-lg">Verify on DBT-Sahayak</h4>

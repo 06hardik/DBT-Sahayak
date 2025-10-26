@@ -35,9 +35,7 @@ const HowItWorks = () => {
         {/* Simplified 3-column layout */}
         <div className="relative max-w-5xl mx-auto">
           {/* Connecting line for desktop view */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2">
-             <div className="w-full h-full bg-slate-200" />
-          </div>
+        
 
           <div className="grid md:grid-cols-3 gap-10 relative">
             {steps.map((step, index) => (

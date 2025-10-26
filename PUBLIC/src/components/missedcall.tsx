@@ -36,11 +36,11 @@ const MissedCall = () => {
 
           {/* Right Side: The Number */}
           <div className="bg-slate-700 border-2 border-slate-600 rounded-2xl p-8 text-center">
-            <h3 className="text-lg text-slate-300 mb-2">Give a Missed Call To</h3>
+            <h3 className="text-lg text-slate-300 mb-2">Demo: Give a Missed Call To</h3>
             <div className="text-4xl sm:text-5xl font-bold text-white tracking-widest bg-slate-900/50 p-6 rounded-lg border border-slate-500">
-              +91 11 4084 XXXX
+              +1 845 773 8324
             </div>
-             <p className="mt-4 text-xs text-slate-400">This is a demo number. This service is completely free of charge.</p>
+             <p className="mt-4 text-xs text-slate-400">(Note: This is a US-based demo number for evaluation. In a live deployment, this would be a local Indian +91 number.)</p>
           </div>
 
         </div>
